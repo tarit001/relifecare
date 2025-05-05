@@ -37,24 +37,39 @@ const Login = () => {
       if (response.status === 200) {
         const { token, user } = response.data;
 
-        // Save token in localStorage
+        if (!token || !user || !user.role) {
+          throw new Error('Invalid response from server.');
+        }
+
+        // Save securely in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('userRole', user.role);
+
+        console.log('✅ Saved token:', token);
+        console.log('✅ Saved userRole:', user.role);
 
         alert(`🎉 Logged in as ${user.role}`);
 
         // Redirect based on role
-        if (user.role === 'admin') {
-          navigate('/admin-dashboard');
-        } else if (user.role === 'doctor') {
-          navigate('/doctor-dashboard');
-        } else {
-          navigate('/patient-dashboard');
+        switch (user.role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'doctor':
+            navigate('/doctor-dashboard');
+            break;
+          case 'patient':
+            navigate('/patient-dashboard');
+            break;
+          default:
+            alert('Unknown role. Please contact support.');
+            localStorage.clear();
+            navigate('/login');
         }
       }
     } catch (error) {
-      console.error(error);
-      alert(error.response?.data?.message || 'Login failed.');
+      console.error('❌ Login error:', error);
+      alert(error.response?.data?.message || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -78,6 +93,7 @@ const Login = () => {
             placeholder="Email"
             className="mb-4 p-3 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
+            value={credentials.email}
             required
           />
           <input
@@ -86,6 +102,7 @@ const Login = () => {
             placeholder="Password"
             className="mb-4 p-3 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
+            value={credentials.password}
             required
           />
           <div className="relative">
@@ -93,6 +110,7 @@ const Login = () => {
               name="role"
               className="p-3 pr-10 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-slate-800/60 text-gray-800 dark:text-gray-100 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               onChange={handleChange}
+              value={credentials.role}
               required
             >
               <option value="">Select Role</option>

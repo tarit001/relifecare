@@ -1,27 +1,19 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware: Verify token
-exports.authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+exports.verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: 'No token provided' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid token' });
-        }
-        req.user = user;
-        next();
-    });
-};
+    const token = authHeader.split(' ')[1];
 
-// Middleware: Check admin role
-exports.requireAdmin = (req, res, next) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ message: 'Access denied: Admins only' });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // add decoded { id, role } to req.user
+        next();
+    } catch (err) {
+        return res.status(401).json({ message: 'Invalid or expired token' });
     }
-    next();
 };
