@@ -92,8 +92,8 @@ const AppRoutes = () => {
 
         {/* Admin Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['admin']} />}>
-          {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
-          {/* <Route path="/admin/admin-home" element={<Admin_Home />} /> */}
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/admin-home" element={<Admin_Home />} />
           <Route path="/doctor" element={<Doctor />} />
           <Route path="/adddoctor" element={<AddDoctorForm />} />
           <Route path="/addpatient" element={<AddPatient />} />
@@ -109,17 +109,10 @@ const AppRoutes = () => {
         </Route>
 
 
-        <Route path="/admin/admin-home" element={<Admin_Home />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-        <Route path="/doctor/doctor-home" element={<Doctor_Home />} />
-        <Route path="/patient-dashboard" element={<PatientDashboard />} />
-        <Route path="/patient/patient-home" element={<Patient_Home />} />
-
         {/* Doctor Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['doctor']} />}>
-          {/* <Route path="/doctor-dashboard" element={<DoctorDashboard />} /> */}
-          {/* <Route path="/doctor/doctor-home" element={<Doctor_Home />} /> */}
+          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          <Route path="/doctor/doctor-home" element={<Doctor_Home />} />
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/doctor/aboutus" element={<Doctor_AboutUsPage />} />
           <Route path="/doctor/Contact" element={<Doctor_Contact />} />
@@ -134,8 +127,8 @@ const AppRoutes = () => {
 
        {/* Patient Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['patient']} />}>
-          {/* <Route path="/patient-dashboard" element={<PatientDashboard />} />
-          <Route path="/patient/patient-home" element={<Patient_Home />} /> */}
+          <Route path="/patient-dashboard" element={<PatientDashboard />} />
+          <Route path="/patient/patient-home" element={<Patient_Home />} />
           <Route path="/patient/aboutus" element={<Patient_AboutUsPage />} />
           <Route path="/patient/Appoint" element={<Patient_AppointmentLogin />} />
           <Route path="/patient/Contact" element={<Patient_Contact />} />
