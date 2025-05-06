@@ -27,9 +27,9 @@ const Patient_Navbar = () => {
         <span className="font-bold text-lg"> <Link to="/" className="hover:text-blue-600 transition font-medium">Relife Health</Link></span>
       </div>
       <div className="flex items-center gap-4">
-        <Link to="/" className="hover:text-blue-600 transition font-medium">Home</Link>
-        <Link to="/login" className="hover:text-blue-600 transition font-medium">Login</Link>
-        <Link to="/register" className="hover:text-blue-600 transition font-medium">Register</Link>
+        <Link to="/patient/home" className="hover:text-blue-600 transition font-medium">Home</Link>
+        <Link to="/patient/login" className="hover:text-blue-600 transition font-medium">Login</Link>
+        <Link to="/patient/register" className="hover:text-blue-600 transition font-medium">Register</Link>
         <Link to="/contact" className="hover:text-blue-600 transition font-medium">Contact</Link>
         <Link to="/patient/patient-exploreus" className="hover:text-blue-600 transition font-medium">Appointment</Link>
         <Link to="/doctor-dashboard" className="hover:text-blue-600 transition font-medium">Doctor</Link>

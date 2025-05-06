@@ -9,7 +9,7 @@ const Patient_Footer = () => {
         
         {/* Left - Contact Info */}
         <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-bold mb-2"><Link to="/" className="hover:text-blue-600">Relife Health Care</Link> </h3>
+          <h3 className="text-xl font-bold mb-2"><Link to="/patient/patient-home" className="hover:text-blue-600">Relife Health Care</Link> </h3>
           <p>Diamond Harbour</p>
           <p>Kolkata, WB - 743368</p>
           <p>📞 +91 33 2551 7800</p>

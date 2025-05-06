@@ -7,7 +7,7 @@ import { MdHealthAndSafety } from "react-icons/md";
 const Admin_FloatingActionButtons = () => {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const isHomePage = location.pathname === "/admin/admin-home";
 
   useEffect(() => {
     if (isHomePage) {
@@ -27,7 +27,7 @@ const Admin_FloatingActionButtons = () => {
 
         {/* Book Appointment */}
         <Link
-          to="/admin/admin-Appoint"
+          to="/admin/appointment"
           className="group flex items-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full px-4 py-2 shadow-lg transition-all duration-500 hover:scale-105"
         >
           <FaCalendarCheck className="text-xl mr-2" />
@@ -38,7 +38,7 @@ const Admin_FloatingActionButtons = () => {
 
         {/* Find Hospital */}
         <Link
-          to="/admin/admin-findhospital"
+          to="/admin/findhospital"
           className="group flex items-center bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-full px-4 py-2 shadow-lg transition-all duration-500 hover:scale-105"
         >
           <FaHospitalAlt className="text-xl mr-2" />
@@ -49,7 +49,7 @@ const Admin_FloatingActionButtons = () => {
 
         {/* Explore Us */}
         <Link
-          to="/admin/admin-exploreus"
+          to="/admin/exploreus"
           className="group flex items-center bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full px-4 py-2 shadow-lg transition-all duration-500 hover:scale-105"
         >
           <MdHealthAndSafety className="text-xl mr-2" />

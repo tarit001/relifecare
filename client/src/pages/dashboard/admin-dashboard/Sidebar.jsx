@@ -16,12 +16,12 @@ const Sidebar = () => {
         <h2 className="text-center mt-4 font-semibold text-lg">Admin Alok Das</h2>
         <p className="text-center text-xs text-gray-600 dark:text-gray-300">Hospital Administrator</p>
         <nav className="mt-6 space-y-4 text-sm font-medium">
-                  <Link to="/" className="hover:text-blue-600 font-medium text-lg flex items-center gap-2">
+                  <Link to="/admin/admin-home" className="hover:text-blue-600 font-medium text-lg flex items-center gap-2">
                       <FaHome /> Home
                     </Link>
           <p><Link to="/admin-dashboard" className="hover:text-blue-600 font-medium text-lg">Dashboard</Link></p>
-          <p><Link to="/doctor" className="hover:text-blue-600 font-medium text-lg">Doctor</Link></p>
-          <p><Link to="/patient" className="hover:text-blue-600 font-medium text-lg">Patient</Link></p>
+          <p><Link to="/admin/doctor" className="hover:text-blue-600 font-medium text-lg">Doctor</Link></p>
+          <p><Link to="/admin/patient" className="hover:text-blue-600 font-medium text-lg">Patient</Link></p>
         </nav>
       </div>
       <div className="flex items-center gap-2 text-red-600 justify-left mt-10">

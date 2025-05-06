@@ -1,23 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
-import chatbotImage from '../patient-assets/chatbot1.jpg';
-
-//import hospitalVideo from '../patient-assets/';
-// import yogaWoman from '../../patient-dashboard/patient-assets/';
-
-
-
+import Patient_Navbar from '../patient-components/patient_Navbar';
 import Patient_Footer from '../patient-components/patient_Footer';
 import Patient_Chatbot from '../patient-components/patient_Chatbot';
 import Patient_FloatingActionButtons from '../patient-components/patient_FloatingActionButtons';
-
 import patient_hospitalVideo from '../patient-assets/patient_hospital.mp4';
 import patient_yogaWoman from '../patient-assets/patient_yogawoman.png';
-
-
-import Patient_Navbar from '../patient-components/patient_Navbar';
-
 
 const Patient_Home = () => {
   const videoRef = useRef(null);
@@ -125,9 +114,9 @@ const Patient_Home = () => {
       {/* Why Choose Us Section */}
       <section className="py-16 px-6 text-center">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">Why Choose Apollo Hospitals In Kolkata?</h2>
+          <h2 className="text-3xl font-bold mb-4">Why Choose Relife Hospitals In Kolkata?</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-10">
-            Apollo Multispeciality Hospitals Kolkata stands as a leader in advanced healthcare in East India.
+            Relife Multispeciality Hospitals Kolkata stands as a leader in advanced healthcare in East India.
             We are the only hospital in Eastern India to be accredited with Joint Commission International (JCI),
             the international benchmark for quality. With cutting-edge medical technology and a comprehensive
             range of specialities, we offer world-class care tailored to the needs of every individual.
@@ -156,19 +145,19 @@ const Patient_Home = () => {
         </div>
       </section>
 
-      {/* Apollo ProHealth Section */}
+      {/* Relife ProHealth Section */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10">
           <div className="text-gray-800 dark:text-gray-100">
             {/* <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Apollo_ProHealth_Logo.svg/2560px-Apollo_ProHealth_Logo.svg.png"
-              alt="Apollo ProHealth"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Relife_ProHealth_Logo.svg/2560px-Relife_ProHealth_Logo.svg.png"
+              alt="Relife ProHealth"
               className="h-12 mb-6"
             /> */}
 
             <h2 className="text-3xl font-bold mb-4">You Are Unique, Your Health Check Should Be Too!</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Apollo ProHealth is the world’s most advanced health check, crafted by expert doctors and AI.
+              Relife ProHealth is the world’s most advanced health check, crafted by expert doctors and AI.
               Answer a few questions so we can design an individualized health plan for you with free doctor
               and specialist consultations included!
             </p>

@@ -9,7 +9,7 @@ const Doctor_Footer = () => {
         
         {/* Left - Contact Info */}
         <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-bold mb-2"><Link to="/" className="hover:text-blue-600">Relife Health Care</Link> </h3>
+          <h3 className="text-xl font-bold mb-2"><Link to="/doctor/home" className="hover:text-blue-600">Relife Health Care</Link> </h3>
           <p>Diamond Harbour</p>
           <p>Kolkata, WB - 743368</p>
           <p>📞 +91 33 2551 7800</p>
@@ -50,11 +50,11 @@ const Doctor_Footer = () => {
         <div>
           <h4 className="text-lg font-semibold mb-2">Quick Links</h4>
           <ul className="space-y-1 text-sm">
-            <li><Link to="/doctor/doctor-home" className="hover:text-blue-600">Home</Link></li>
-            <li><Link to="/doctor/doctor-services" className="hover:text-blue-600">Services</Link></li>
-            <li><Link to="/doctor/doctor-aboutus" className="hover:text-blue-600">About Us</Link></li>
-            <li><Link to="/doctor/doctor-exploreus" className="hover:text-blue-600">Explore Us</Link></li>
-            <li><Link to="/doctor/doctor-Contact" className="hover:text-blue-600">Contact Us</Link></li>
+            <li><Link to="/doctor/home" className="hover:text-blue-600">Home</Link></li>
+            <li><Link to="/doctor/services" className="hover:text-blue-600">Services</Link></li>
+            <li><Link to="/doctor/aboutus" className="hover:text-blue-600">About Us</Link></li>
+            <li><Link to="/doctor/exploreus" className="hover:text-blue-600">Explore Us</Link></li>
+            <li><Link to="/doctor/Contact" className="hover:text-blue-600">Contact Us</Link></li>
           </ul>
         </div>
       </div>

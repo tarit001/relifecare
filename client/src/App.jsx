@@ -92,53 +92,57 @@ const AppRoutes = () => {
 
         {/* Admin Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['admin']} />}>
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
+          {/* <Route path="/admin/admin-home" element={<Admin_Home />} /> */}
           <Route path="/doctor" element={<Doctor />} />
           <Route path="/adddoctor" element={<AddDoctorForm />} />
           <Route path="/addpatient" element={<AddPatient />} />
           <Route path="/patient" element={<Patient />} />
-
-          <Route path="/admin/admin-home" element={<Admin_Home />} />
-          <Route path="/admin/admin-aboutus" element={<Admin_AboutUsPage />} />
-          <Route path="/admin/admin-Appoint" element={<Admin_AppointmentLogin />} />
-          <Route path="/admin/admin-Contact" element={<Admin_Contact />} />
-          <Route path="/admin/admin-exploreus" element={<Admin_FindDoctor />} />
-          <Route path="/admin/admin-findhospital" element={<Admin_FindHospital />} />
-          <Route path="/admin/admin-forgotpassword" element={<Admin_ForgotPassword />} />
-          <Route path="/admin/admin-services" element={<Admin_Services />} />
+          <Route path="/admin/aboutus" element={<Admin_AboutUsPage />} />
+          <Route path="/admin/Appoint" element={<Admin_AppointmentLogin />} />
+          <Route path="/admin/Contact" element={<Admin_Contact />} />
+          <Route path="/admin/exploreus" element={<Admin_FindDoctor />} />
+          <Route path="/admin/findhospital" element={<Admin_FindHospital />} />
+          <Route path="/admin/forgotpassword" element={<Admin_ForgotPassword />} />
+          <Route path="/admin/services" element={<Admin_Services />} />
 
         </Route>
 
 
+        <Route path="/admin/admin-home" element={<Admin_Home />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+        <Route path="/doctor/doctor-home" element={<Doctor_Home />} />
+        <Route path="/patient-dashboard" element={<PatientDashboard />} />
+        <Route path="/patient/patient-home" element={<Patient_Home />} />
+
         {/* Doctor Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['doctor']} />}>
-          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          {/* <Route path="/doctor-dashboard" element={<DoctorDashboard />} /> */}
+          {/* <Route path="/doctor/doctor-home" element={<Doctor_Home />} /> */}
           <Route path="/appointment" element={<Appointment />} />
-
-          <Route path="/doctor/doctor-home" element={<Doctor_Home />} />
-          <Route path="/doctor/doctor-aboutus" element={<Doctor_AboutUsPage />} />
-          <Route path="/doctor/doctor-Contact" element={<Doctor_Contact />} />
-          <Route path="/doctor/doctor-findhospital" element={<Doctor_FindHospital />} />
-          <Route path="/doctor/doctor-exploreus" element={<Doctor_FindDoctor />} />
-          <Route path="/doctor/doctor-forgotpassword" element={<Doctor_ForgotPassword />} />
-          <Route path="/doctor/doctor-services" element={<Doctor_Services />} />
-          <Route path="/doctor/doctor-Appoint" element={<Doctor_AppointmentLogin />} />
+          <Route path="/doctor/aboutus" element={<Doctor_AboutUsPage />} />
+          <Route path="/doctor/Contact" element={<Doctor_Contact />} />
+          <Route path="/doctor/findhospital" element={<Doctor_FindHospital />} />
+          <Route path="/doctor/exploreus" element={<Doctor_FindDoctor />} />
+          <Route path="/doctor/forgotpassword" element={<Doctor_ForgotPassword />} />
+          <Route path="/doctor/services" element={<Doctor_Services />} />
+          <Route path="/doctor/appointment" element={<Doctor_AppointmentLogin />} />
 
         </Route>
 
 
        {/* Patient Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['patient']} />}>
-          <Route path="/patient-dashboard" element={<PatientDashboard />} />
-
-          <Route path="/patient/patient-home" element={<Patient_Home />} />
-          <Route path="/patient/patient-aboutus" element={<Patient_AboutUsPage />} />
-          <Route path="/patient/patient-Appoint" element={<Patient_AppointmentLogin />} />
-          <Route path="/patient/patient-Contact" element={<Patient_Contact />} />
-          <Route path="/patient/patient-exploreus" element={<Patient_Explore />} />
-          <Route path="/patient/patient-findhospital" element={<Patient_FindHospital />} />
-          <Route path="/patient/patient-forgotpassword" element={<Patient_ForgotPassword />} />
-          <Route path="/patient/patient-services" element={<Patient_Services />} />
+          {/* <Route path="/patient-dashboard" element={<PatientDashboard />} />
+          <Route path="/patient/patient-home" element={<Patient_Home />} /> */}
+          <Route path="/patient/aboutus" element={<Patient_AboutUsPage />} />
+          <Route path="/patient/Appoint" element={<Patient_AppointmentLogin />} />
+          <Route path="/patient/Contact" element={<Patient_Contact />} />
+          <Route path="/patient/exploreus" element={<Patient_Explore />} />
+          <Route path="/patient/findhospital" element={<Patient_FindHospital />} />
+          <Route path="/patient/forgotpassword" element={<Patient_ForgotPassword />} />
+          <Route path="/patient/services" element={<Patient_Services />} />
 
         </Route>
       </Routes>

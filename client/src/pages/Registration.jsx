@@ -48,7 +48,7 @@ const Registration = () => {
         alert("Please complete Admin fields.");
         return;
       }
-      if (!/^[a-zA-Z0-9._%+-]+@(gmail|yahoo|outlook|relifehospital)\.com$/.test(form.officialEmail)) {
+      if (!/^[a-zA-Z0-9._%+-]+@(relifehospital)\.com$/.test(form.officialEmail)) {
         alert("Official Email must be Gmail, Yahoo, or Outlook.");
         return;
       }
@@ -204,7 +204,7 @@ const Registration = () => {
                 <input
                   type="email"
                   name="officialEmail"
-                  placeholder="Official Mail (gmail/yahoo/outlook)"
+                  placeholder="Official Mail (relifehospital)"
                   className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-gray-800 dark:text-gray-100 col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                   required
