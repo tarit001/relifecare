@@ -1,9 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 
 const DoctorSidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      // Remove JWT token (or any auth data) from storage
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      // Navigate back to main home page
+      navigate('/');
+    }
+  };
+
   return (
     <div className="w-64 p-4 shadow-lg flex flex-col justify-between h-screen bg-gradient-to-r from-blue-200 via-slate-300 to-gray-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-600">
       {/* Top Content */}
@@ -24,7 +38,7 @@ const DoctorSidebar = () => {
           <p><Link to="/doctor-dashboard" className="hover:text-blue-600 font-medium text-lg">
             Dashboard
           </Link></p> 
-         <p><Link to="/appointment" className="hover:text-blue-600 font-medium text-lg">
+          <p><Link to="/appointment" className="hover:text-blue-600 font-medium text-lg">
             Appointment
           </Link></p> 
         </nav>
@@ -32,12 +46,12 @@ const DoctorSidebar = () => {
 
       {/* Logout Button at Bottom */}
       <div className="mt-6">
-        <Link
-          to="/"
+        <button
+          onClick={handleLogout}
           className="flex items-center gap-2 text-red-600 hover:text-blue-600 font-medium text-lg"
         >
           <FiLogOut /> Logout
-        </Link>
+        </button>
       </div>
     </div>
   );
