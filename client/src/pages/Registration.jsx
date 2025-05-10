@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Chatbot from '../components/Chatbot';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
@@ -20,6 +20,17 @@ const Registration = () => {
     doctorId: ''
   });
 
+  // Fetch environment variables, add fallback values if needed
+const adminMasterIds = (process.env.REACT_APP_ADMIN_MASTER_ID || '').split(',').map(id => id.trim()).filter(Boolean);
+const adminMasterEmails = (process.env.REACT_APP_ADMIN_MASTER_EMAIL || '').split(',').map(email => email.trim()).filter(Boolean);
+const doctorMasterIds = (process.env.REACT_APP_DOCTOR_MASTER_ID || '').split(',').map(id => id.trim()).filter(Boolean);
+
+  // Debug log the variables
+console.log("📦 Raw ENV Admin IDs:", process.env.REACT_APP_ADMIN_MASTER_ID);
+console.log("📦 Raw ENV Admin Emails:", process.env.REACT_APP_ADMIN_MASTER_EMAIL);
+console.log("📦 Raw ENV Doctor IDs:", process.env.REACT_APP_DOCTOR_MASTER_ID);
+
+
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL
   });
@@ -35,27 +46,43 @@ const Registration = () => {
       alert("Passwords do not match!");
       return;
     }
+
     if (!/^[6-9]\d{9}$/.test(form.mobile)) {
       alert("Mobile number must be 10 digits.");
       return;
     }
+
     if (!/^[a-zA-Z0-9._%+-]+@(gmail|yahoo)\.com$/.test(form.email)) {
       alert("Email must be a valid Gmail or Yahoo address.");
       return;
     }
+
+    // Admin validations
     if (selectedRole === "admin") {
       if (!form.adminId || !form.officialEmail) {
         alert("Please complete Admin fields.");
         return;
       }
-      if (!/^[a-zA-Z0-9._%+-]+@(relifehospital)\.com$/.test(form.officialEmail)) {
-        alert("Official Email must be Gmail, Yahoo, or Outlook.");
+      if (!adminMasterIds.includes(form.adminId)) {
+        alert("❌ Admin ID not found in list: " + form.adminId);
+        return;
+      }
+      if (!adminMasterEmails.includes(form.officialEmail)) {
+        alert("❌ Invalid Official Email.");
+        return;
+      }
+      if (!/^[a-zA-Z0-9._%+-]+@relifehospital\.com$/.test(form.officialEmail)) {
+        alert("Official Email must be from relifehospital.com");
         return;
       }
     }
-    if (selectedRole === "doctor" && !form.doctorId) {
-      alert("Please enter Doctor ID.");
-      return;
+
+    // Doctor validation
+    if (selectedRole === "doctor") {
+      if (!form.doctorId || !doctorMasterIds.includes(form.doctorId)) {
+        alert("Invalid or missing Doctor ID.");
+        return;
+      }
     }
 
     const payload = {
@@ -89,14 +116,19 @@ const Registration = () => {
     }
   };
 
+  // Debug logs
+  useEffect(() => {
+    console.log("🧾 Form Values:", form);
+    console.log("👮 Admin IDs:", adminMasterIds);
+    console.log("📧 Admin Emails:", adminMasterEmails);
+    console.log("🩺 Doctor IDs:", doctorMasterIds);
+  }, [form]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-slate-900 dark:to-slate-800 text-gray-800 dark:text-gray-100">
       <Navbar />
       <div className="flex justify-center items-center pt-20 pb-20 px-4">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white/80 dark:bg-slate-800/80 p-8 rounded-lg shadow-xl w-full max-w-lg glass dark:glass-dark"
-        >
+        <form onSubmit={handleSubmit} className="bg-white/80 dark:bg-slate-800/80 p-8 rounded-lg shadow-xl w-full max-w-lg glass dark:glass-dark">
           <h2 className="text-2xl font-bold text-center mb-4">Register as</h2>
 
           {/* Role selection buttons */}
@@ -106,11 +138,7 @@ const Registration = () => {
                 key={role}
                 type="button"
                 onClick={() => setSelectedRole(role)}
-                className={`px-4 py-2 mx-2 rounded-lg ${
-                  selectedRole === role
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
-                } transition`}
+                className={`px-4 py-2 mx-2 rounded-lg ${selectedRole === role ? 'bg-blue-600 text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200'} transition`}
               >
                 {role.charAt(0).toUpperCase() + role.slice(1)}
               </button>
@@ -227,14 +255,10 @@ const Registration = () => {
 
           <button
             type="submit"
-            className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full mt-6 p-3 rounded-lg bg-blue-600 text-white text-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700"
           >
-            Register as {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
+            Register
           </button>
-          <p className="mt-4 text-center text-sm">
-            Already have an account?{' '}
-            <a href="/login" className="text-blue-600 hover:underline">Login</a>
-          </p>
         </form>
       </div>
       <Chatbot />

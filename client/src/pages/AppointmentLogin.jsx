@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Chatbot from '../components/Chatbot';
-import Footer from '../components/Footer';
 
-const Appointment = () => {
+
+const AppointmentLogin = () => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem('token'); // Assume token stored on login
 
@@ -20,7 +18,6 @@ const Appointment = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-slate-900 dark:to-slate-800 text-gray-800 dark:text-gray-100">
-      <Navbar />
 
       <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto text-center">
         {!isLoggedIn ? (
@@ -37,9 +34,8 @@ const Appointment = () => {
       </div>
       
 
-      <Chatbot />
     </div>
   );
 };
 
-export default Appointment;
+export default AppointmentLogin;

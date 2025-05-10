@@ -15,19 +15,18 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .then(() => console.log('✅ MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-
-// Health check route for Render or general monitoring
+// Health check
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'API is running.....✅ 🚀' });
-  });
+});
 
+// Mount routes
 
-// Mount your routes after the health check
-app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/protected', require('./routes/protectedRoutes'));
+app.use('/api/auth', require('./routes/authRoutes')); // handles login, register, etc.
+app.use('/api/forgot', require('./routes/forgotPasswordRoutes')); // now OTP has separate namespace
 
-
-//error handler
+// Error handler
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({ message: 'Internal server error' });

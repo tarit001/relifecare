@@ -1,80 +1,74 @@
+// api.js
+// api.js
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const instance = axios.create({
+    baseURL: 'http://localhost:5000/api',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+export default instance;
+
+
+
+// ✅ Named API calls using axios
 
 // Fetch all patients
 export const getPatients = async () => {
-  const response = await fetch(`${API_URL}/api/patients`);
-  if (!response.ok) throw new Error('Failed to fetch patients');
-  return response.json();
+    const response = await instance.get('/patients');
+    return response.data;
 };
 
 // Fetch patient by ID
 export const getPatientById = async (id) => {
-  const response = await fetch(`${API_URL}/api/patients/${id}`);
-  if (!response.ok) throw new Error('Failed to fetch patient');
-  return response.json();
+    const response = await instance.get(`/patients/${id}`);
+    return response.data;
 };
 
 // Create a new patient
 export const createPatient = async (patientData) => {
-  const response = await fetch(`${API_URL}/api/patients`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(patientData),
-  });
-  if (!response.ok) throw new Error('Failed to create patient');
-  return response.json();
+    const response = await instance.post('/patients', patientData);
+    return response.data;
 };
 
 // Update patient
 export const updatePatient = async (id, patientData) => {
-  const response = await fetch(`${API_URL}/api/patients/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(patientData),
-  });
-  if (!response.ok) throw new Error('Failed to update patient');
-  return response.json();
+    const response = await instance.put(`/patients/${id}`, patientData);
+    return response.data;
 };
 
 // Delete patient
 export const deletePatient = async (id) => {
-  const response = await fetch(`${API_URL}/api/patients/${id}`, {
-    method: 'DELETE',
-  });
-  if (!response.ok) throw new Error('Failed to delete patient');
-  return response.json();
+    const response = await instance.delete(`/patients/${id}`);
+    return response.data;
+};
+
+// Admin-only data fetch
+export const getAdminOnlyData = async () => {
+    const token = localStorage.getItem('token');
+    const response = await instance.get('/auth/admin-only', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
 };
 
 
 
+export const sendForgotPasswordOtp = async (email) => {
+  const response = await instance.post('/forgot/forgot-password', { email });
+  return response.data;
+};
 
+export const verifyForgotPasswordOtp = async ({ email, otp }) => {
+  const response = await instance.post('/forgot/verify-otp', { email, otp });
+  return response.data;
+};
 
-// src/api/auth.js
-
-export async function getAdminOnlyData() {
-  const token = localStorage.getItem('token');
-
-  const response = await fetch('http://localhost:5000/api/auth/admin-only', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-  return data;
-}
-
-
-
-
-
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-});
-
-export default api;
-
+export const resetUserPassword = async ({ email, newPassword }) => {
+  const response = await instance.post('/forgot/reset-password', { email, newPassword });
+  return response.data;
+};

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Chatbot from '../components/Chatbot';
+import OTPModal from '../components/OtpModal';
 import doctorImage from '../assets/doctor.png';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
@@ -12,7 +13,8 @@ const Login = () => {
     password: '',
     role: '',
   });
-
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [currentEmail, setCurrentEmail] = useState('');
   const navigate = useNavigate();
 
   const api = axios.create({
@@ -25,7 +27,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!credentials.email || !credentials.password || !credentials.role) {
       alert('Please fill in all fields including role.');
       return;
@@ -35,22 +36,26 @@ const Login = () => {
       const response = await api.post('/api/auth/login', credentials);
 
       if (response.status === 200) {
-        const { token, user } = response.data;
+        const { email } = credentials;
+        setCurrentEmail(email);
+        setShowOtpModal(true); // Open OTP popup after login step 1
+      }
+    } catch (error) {
+      console.error('❌ Login error:', error);
+      alert(error.response?.data?.message || 'Login failed. Please check your credentials.');
+    }
+  };
 
-        if (!token || !user || !user.role) {
-          throw new Error('Invalid response from server.');
-        }
-
-        // Save securely in localStorage
+  const verifyOtp = async (otp) => {
+    try {
+      const res = await api.post('/api/auth/verify-otp', { email: currentEmail, otp });
+      if (res.status === 200) {
+        const { token, user } = res.data;
         localStorage.setItem('token', token);
         localStorage.setItem('userRole', user.role);
-
-        console.log('✅ Saved token:', token);
-        console.log('✅ Saved userRole:', user.role);
-
-        alert(`🎉 Logged in as ${user.role}`);
-
-        // Redirect based on role
+        alert(`🎉 Login successful as ${user.role}`);
+        setShowOtpModal(false);
+        // Navigate to dashboard
         switch (user.role) {
           case 'admin':
             navigate('/admin-dashboard');
@@ -68,8 +73,18 @@ const Login = () => {
         }
       }
     } catch (error) {
-      console.error('❌ Login error:', error);
-      alert(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      console.error('❌ OTP verification error:', error);
+      alert(error.response?.data?.message || 'Invalid OTP. Please try again.');
+    }
+  };
+
+  const resendOtp = async () => {
+    try {
+      await api.post('/api/auth/resend-otp', { email: currentEmail });
+      alert('✅ OTP resent successfully!');
+    } catch (error) {
+      console.error('❌ Resend OTP error:', error);
+      alert(error.response?.data?.message || 'Failed to resend OTP.');
     }
   };
 
@@ -142,6 +157,15 @@ const Login = () => {
       </div>
 
       <Chatbot />
+
+      {/* OTP Modal */}
+      <OTPModal
+        isOpen={showOtpModal}
+        onClose={() => setShowOtpModal(false)}
+        onVerify={verifyOtp}
+        onResend={resendOtp}
+        email={currentEmail}
+      />
     </div>
   );
 };

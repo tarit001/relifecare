@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Chatbot from '../components/Chatbot';
+import apiInstance from '../api';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
-  const [step, setStep] = useState(1); // 1: email, 2: otp, 3: new password
+  const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [timeLeft, setTimeLeft] = useState(120);
   const [otpExpired, setOtpExpired] = useState(false);
+  const navigate = useNavigate();
 
-  // Timer Logic
+  // Countdown timer
   useEffect(() => {
     let timer;
     if (step === 2 && timeLeft > 0) {
@@ -29,44 +31,54 @@ const ForgotPassword = () => {
     return `${min}:${sec < 10 ? '0' : ''}${sec}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      if (step === 1) {
+        const res = await apiInstance.post('/forgot/forgot-password', { email });
+        console.log('✅ OTP sent:', res.data.message);
+        alert(res.data.message);
+        localStorage.setItem('forgotEmail', email); // 🔐 Store email for step 2
+        setStep(2);
+        setTimeLeft(120);
+        setOtpExpired(false);
+      } else if (step === 2) {
+        const storedEmail = localStorage.getItem('forgotEmail');
+        console.log('🔍 Verifying OTP with:', { email: storedEmail, otp });
 
-    if (step === 1) {
-      if (!/^[a-zA-Z0-9._%+-]+@(gmail|yahoo)\.com$/.test(email)) {
-        alert('Please enter a valid Gmail or Yahoo email address.');
-        return;
+        const res = await apiInstance.post('/forgot/verify-otp', {
+          email: storedEmail,
+          otp,
+        });
+
+        console.log('✅ OTP verified:', res.data.message);
+        alert(res.data.message);
+
+        localStorage.removeItem('forgotEmail'); // 🧹 Clean up
+        navigate('/reset-password', { state: { email: storedEmail } });
       }
-      alert(`📧 OTP has been sent to: ${email}`);
-      setStep(2);
-      setTimeLeft(120);
-      setOtpExpired(false);
-    } else if (step === 2) {
-      if (otp.length !== 6) {
-        alert('Please enter a valid 6-digit OTP.');
-        return;
-      }
-      setStep(3);
-    } else if (step === 3) {
-      if (newPassword.length < 6) {
-        alert('Password must be at least 6 characters.');
-        return;
-      }
-      alert('✅ Password reset successful!');
-      setEmail('');
-      setOtp('');
-      setNewPassword('');
-      setStep(1);
-      setTimeLeft(120);
-      setOtpExpired(false);
+    } catch (err) {
+      console.error('❌ API error:', err);
+      const errorMsg = err.response?.data?.message || 'Something went wrong! Please try again.';
+      alert(errorMsg);
     }
   };
 
-  const handleResendOtp = () => {
-    alert(`🔁 New OTP has been sent to: ${email}`);
-    setOtp('');
-    setTimeLeft(120);
-    setOtpExpired(false);
+  const handleResendOtp = async () => {
+    try {
+      const storedEmail = localStorage.getItem('forgotEmail');
+      const res = await apiInstance.post('/forgot/forgot-password', { email: storedEmail });
+      console.log('✅ Resent OTP:', res.data.message);
+      alert('New OTP sent!');
+      setOtp('');
+      setTimeLeft(120);
+      setOtpExpired(false);
+    } catch (err) {
+      console.error('❌ Resend OTP error:', err);
+      const errorMsg =
+        err.response?.data?.message || 'Failed to resend OTP. Please try again.';
+      alert(errorMsg);
+    }
   };
 
   return (
@@ -80,15 +92,13 @@ const ForgotPassword = () => {
           <h2 className="text-2xl font-bold text-center mb-6">
             {step === 1 && 'Forgot Password'}
             {step === 2 && 'Enter OTP'}
-            {step === 3 && 'Reset New Password'}
           </h2>
 
           {step === 1 && (
             <input
               type="email"
-              name="email"
               value={email}
-              placeholder="Enter your email (gmail/yahoo)"
+              placeholder="Enter your email"
               className="p-3 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent mb-4"
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -99,7 +109,6 @@ const ForgotPassword = () => {
             <>
               <input
                 type="text"
-                name="otp"
                 value={otp}
                 placeholder="Enter 6-digit OTP"
                 className="p-3 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent mb-4"
@@ -125,28 +134,12 @@ const ForgotPassword = () => {
             </>
           )}
 
-          {step === 3 && (
-            <input
-              type="password"
-              name="newPassword"
-              value={newPassword}
-              placeholder="Enter new password"
-              className="p-3 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent mb-4"
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
-          )}
-
-          {(step === 1 || step === 2 || step === 3) && (
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition mt-4"
-            >
-              {step === 1 && 'Send OTP'}
-              {step === 2 && 'Verify OTP'}
-              {step === 3 && 'Reset Password'}
-            </button>
-          )}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition mt-4"
+          >
+            {step === 1 ? 'Send OTP' : 'Verify OTP'}
+          </button>
 
           {step === 1 && (
             <p className="mt-4 text-center text-sm">

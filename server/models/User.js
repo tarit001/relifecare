@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ['admin', 'doctor', 'patient'], default: 'patient' },
     officialId: { type: String },          // ADMIN-0001 or DOC-0001
     officialEmail: { type: String },       // from env
+    otp: { type: String },              // NEW
+    otpExpires: { type: Date },         // NEW
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {

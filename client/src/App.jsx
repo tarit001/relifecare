@@ -14,6 +14,7 @@ import AppointmentLogin from './pages/AppointmentLogin';
 import FindHospital from './pages/FindHospital';
 import Appform from './pages/Appform';
 import Unauthorized from './pages/Unauthorized';
+import OtpModal from './components/OtpModal';
 
 // Dashboards
 import PatientDashboard from './pages/dashboard/patient-dashboard/PatientDashboard';
@@ -37,6 +38,8 @@ import Patient_Contact from './pages/dashboard/patient-dashboard/patient-page/pa
 import Patient_Explore from './pages/dashboard/patient-dashboard/patient-page/patient_ExploreUs';
 import Patient_FindHospital from './pages/dashboard/patient-dashboard/patient-page/patient_FindHospital';
 import Patient_ForgotPassword from './pages/dashboard/patient-dashboard/patient-page/patient_ForgotPassword';
+import VerifyOtp from './pages/VerifyOtp';
+import ResetPassword from './pages/ResetPassword';
 import Patient_Services from './pages/dashboard/patient-dashboard/patient-page/patient_Services';
 
 // Admin pages
@@ -86,6 +89,11 @@ const AppRoutes = () => {
         <Route path="/appointmentlogin" element={<AppointmentLogin />} />
         <Route path="/findhospital" element={<FindHospital />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/otp-validation" element={<OtpModal />} />
+
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
 
 
         {/* Protected Routes */}
@@ -125,7 +133,7 @@ const AppRoutes = () => {
         </Route>
 
 
-       {/* Patient Pages (after login) */}
+        {/* Patient Pages (after login) */}
         <Route element={<PrivateRoute allowedRoles={['patient']} />}>
           <Route path="/patient-dashboard" element={<PatientDashboard />} />
           <Route path="/patient/patient-home" element={<Patient_Home />} />
